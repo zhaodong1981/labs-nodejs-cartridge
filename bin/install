@@ -1,0 +1,8 @@
+#!/bin/bash
+
+source "${OPENSHIFT_LABSNODEJS_DIR}lib/util"
+
+install
+
+gem_path=$(gem environment gemdir)
+ln -s "${gem_path}/bin" "${OPENSHIFT_LABSNODEJS_DIR}bin/gems/bin"

@@ -1,0 +1,71 @@
+#!/bin/bash
+
+source $OPENSHIFT_CARTRIDGE_SDK_BASH
+
+function print_spaced_msg {
+    client_message ""
+    client_message "-----> $*"
+    client_message ""
+}
+
+function print_spaced_heading {
+    client_message ""
+    client_message ""
+    client_message "    ******** $* ********"
+    client_message ""
+}
+
+function install {
+    print_spaced_heading "Labs Node.js Installing"
+    requested_ver=${OPENSHIFT_NODEJS_VERSION}
+
+    if ! [ -z "$OPENSHIFT_NODEJS_CUSTOM_VERSION" ]; then
+        requested_ver="${OPENSHIFT_NODEJS_CUSTOM_VERSION}"
+    fi
+
+    semver_url="https://semver.io/node/"
+
+    if (echo ${requested_ver} | grep -q -E "stable|unstable"); then
+        semver_url="${semver_url}${requested_ver}"
+    else
+        semver_url="${semver_url}resolve/${requested_ver}"
+    fi
+    ver=$(curl --silent --get ${semver_url})
+
+    client_message "Resolved ${requested_ver} against semver.io and received ${ver}"
+
+    zfile="node-v${ver}-linux-x64.tar.gz"
+    zlink="http://nodejs.org/dist/v${ver}/${zfile}"
+
+    #  Download and extract the gzipped tarball.
+    dldir="$OPENSHIFT_TMP_DIR/downloads"
+    mkdir -p "$dldir"
+    client_message "Downloading Node.js v${ver}..."
+
+    if ! curl -L -o "$dldir/$zfile" "$zlink"; then
+      echo "  - ERROR  -- download failed for $zlink"
+      echo "  - download uri = $dldir/$zfile"
+      return 1
+    fi
+
+    cd "$dldir"
+    mkdir -p tmp
+    rm -rf tmp/*
+    tar -xf "$zfile" -C tmp --strip-components 1
+
+    rm -rf ${OPENSHIFT_NODEJS_PATH}/*
+    mv -f tmp/* ${OPENSHIFT_NODEJS_PATH}
+
+    print_spaced_msg "Finished installing Node.js v${ver}"
+
+    npmglobals=${OPENSHIFT_NPM_GLOBALS}
+    if ! [ -z "$OPENSHIFT_NPM_CUSTOM_GLOBALS" ]; then
+        npmglobals="${OPENSHIFT_NPM_CUSTOM_GLOBALS}"
+    fi
+    client_message "Installing ${npmglobals} globally..."
+    npm install ${npmglobals} -g
+
+    print_spaced_msg "Installed global npm modules successfully"
+
+    path_append
+}
