@@ -3,7 +3,7 @@
 ## Usage
 
 Create an app using the latest LTS version 4 (https://semver.io/node/resolve/4):
-`rhc create-app <app name> http://nodecartridge-dongrht.rhcloud.com/manifest/LTS-4`
+** `rhc create-app <app name> http://nodecartridge-dongrht.rhcloud.com/manifest/LTS-4`
 
 What this cartridge provides out of the box
 ---
