@@ -43,7 +43,7 @@ function start() {
         kill -9 `cat ${OPENSHIFT_LABSNODEJS_DIR}maintenance.pid`
         rm -f ${OPENSHIFT_LABSNODEJS_DIR}maintenance.pid
     fi
-
+    mkdir -p ${OPENSHIFT_NODEJS_LOG_DIR}
     logf="${OPENSHIFT_NODEJS_LOG_DIR}node.log"
     touch $logf
     if [ -f "${OPENSHIFT_REPO_DIR}package.json" ]; then
