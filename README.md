@@ -2,7 +2,9 @@
 
 ## Usage
 
-`rhc create-app <app name> http://nodecartridge-dongrht.rhcloud.com/manifest/LTS-4`
+1. **Create an app from LTS 4** `rhc create-app <app name> http://nodecartridge-dongrht.rhcloud.com/manifest/LTS-4`
+2. **Create an app from the latest stable release** `rhc create-app <app name> http://nodecartridge-dongrht.rhcloud.com/manifest/stable`
+3. **Create an app from the latest unstable release** `rhc create-app <app name> http://nodecartridge-dongrht.rhcloud.com/manifest/unstable`
 
 What this cartridge provides out of the box
 ---
