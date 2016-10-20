@@ -1,3 +1,5 @@
+# This repo is deprecated. Please acccess the new one: https://github.com/redhataccess/labs-nodejs-cartridge
+
 # Openshift Labs Node.JS
 
 ## Usage
